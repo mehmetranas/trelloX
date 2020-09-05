@@ -1,18 +1,28 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      {{ title }}
+      <span
+        contenteditable
+        [textContent]="list?.title"
+        (input)="list.title = $event.target.textContent"
+      ></span>
     </div>
   </div>
   <div class="row">
-    <div class="col-12">
-      <app-card [title]="'First Card/' + title"></app-card>
-    </div>
-    <div class="col-12">
-      <app-card [title]="'Second Card/' + title"></app-card>
-    </div>
-    <div class="col-12">
-      <app-card [title]="'Third Card/' + title"></app-card>
+    <div
+      class="col-12"
+      cdkDropList
+      [id]="list.id"
+      [cdkDropListData]="list.cards"
+      [cdkDropListConnectedTo]="listIds"
+      (cdkDropListDropped)="onCardDrop($event)"
+    >
+      <app-card
+        *ngFor="let card of list?.cards; let cardIndex = index"
+        [title]="card?.title + '/' + list?.title"
+        [cdkDragData]="card"
+        cdkDrag
+      ></app-card>
     </div>
   </div>
 </div>

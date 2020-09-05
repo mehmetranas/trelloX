@@ -11,7 +11,9 @@
       cdkDrag
       *ngFor="let list of lists; let listIndex = index"
     >
-      <app-list [title]="list.title"></app-list>
+      <div class="container"></div>
+
+      <app-list [list]="list" [listIds]="listIds"> </app-list>
     </div>
   </div>
 </div>

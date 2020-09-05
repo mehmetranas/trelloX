@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board',
@@ -8,11 +12,53 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 })
 export class BoardComponent implements OnInit {
   lists = [
-    { title: 'First List' },
-    { title: 'Second List' },
-    { title: 'Third List' },
+    {
+      title: 'First List',
+      id: 'first-list',
+      cards: [
+        {
+          title: 'First Card',
+        },
+        {
+          title: 'Second Card',
+        },
+        {
+          title: 'Third Card',
+        },
+      ],
+    },
+    {
+      title: 'Second List',
+      id: 'second-list',
+      cards: [
+        {
+          title: 'First Card',
+        },
+        {
+          title: 'Second Card',
+        },
+        {
+          title: 'Third Card',
+        },
+      ],
+    },
+    {
+      title: 'Third List',
+      id: 'third-list',
+      cards: [
+        {
+          title: 'First Card',
+        },
+        {
+          title: 'Second Card',
+        },
+        {
+          title: 'Third Card',
+        },
+      ],
+    },
   ];
-  constructor() {}
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
   onListDrop(event: CdkDragDrop<any[]>) {
@@ -21,5 +67,9 @@ export class BoardComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  get listIds(): string[] {
+    return this.lists.map((l) => l.id);
   }
 }
