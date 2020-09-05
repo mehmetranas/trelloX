@@ -1,8 +1,10 @@
 <!-- Toolbar -->
-<app-toolbar></app-toolbar>
+<div class="app-toolbar position-fixed w-100">
+  <mat-toolbar>It Is Not Trello Just A Clone</mat-toolbar>
+</div>
 
 <!-- App Content -->
-<div class="app-content container-fluid">
+<div class="app-content container-fluid" [style.padding-top.px]="64">
   <div class="row">
     <div class="col-12 py-5">
       <app-board></app-board>

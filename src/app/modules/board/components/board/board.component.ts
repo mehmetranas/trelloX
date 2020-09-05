@@ -4,6 +4,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { List } from 'src/app/shared/models/schemas';
+import { BoardService } from '../../board.service';
 
 @Component({
   selector: 'app-board',
@@ -11,62 +13,33 @@ import {
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
-  lists = [
-    {
-      title: 'First List',
-      id: 'first-list',
-      cards: [
-        {
-          title: 'First Card',
-        },
-        {
-          title: 'Second Card',
-        },
-        {
-          title: 'Third Card',
-        },
-      ],
-    },
-    {
-      title: 'Second List',
-      id: 'second-list',
-      cards: [
-        {
-          title: 'First Card',
-        },
-        {
-          title: 'Second Card',
-        },
-        {
-          title: 'Third Card',
-        },
-      ],
-    },
-    {
-      title: 'Third List',
-      id: 'third-list',
-      cards: [
-        {
-          title: 'First Card',
-        },
-        {
-          title: 'Second Card',
-        },
-        {
-          title: 'Third Card',
-        },
-      ],
-    },
-  ];
-  constructor(private cdRef: ChangeDetectorRef) {}
+  lists: List[] = [];
+  newList: List;
+  displayCreateNewList: boolean = false;
+  constructor(private boardService: BoardService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchLists();
+  }
+
+  fetchLists(): void {
+    this.boardService.getLists().subscribe((lists: List[]) => {
+      this.lists = [...lists];
+      console.log('state', lists);
+      console.log('lists', this.lists);
+    });
+  }
   onListDrop(event: CdkDragDrop<any[]>) {
     moveItemInArray(
       event.container.data,
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  createNewList(list: List) {
+    this.boardService.addNewList(list);
+    this.displayCreateNewList = false;
   }
 
   get listIds(): string[] {

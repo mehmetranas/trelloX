@@ -7,13 +7,32 @@
     cdkDropListOrientation="horizontal"
   >
     <div
-      class="col-4 border"
+      class="col-12 col-md-6 col-lg-4 px-3"
       cdkDrag
       *ngFor="let list of lists; let listIndex = index"
     >
-      <div class="container"></div>
-
-      <app-list [list]="list" [listIds]="listIds"> </app-list>
+      <div class="row border py-2">
+        <div class="col-12" cdkDragHandle [cdkDragHandleDisabled]="!list.id">
+          <mat-icon style="cursor: move">drag_handle</mat-icon>
+        </div>
+        <div class="col-12">
+          <app-list [list]="list" [listIds]="listIds"> </app-list>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 px-3">
+      <ng-container *ngIf="!displayCreateNewList; else createNewListTemplate">
+        <button class="btn btn-link" (click)="this.displayCreateNewList = true">
+          Add New List
+        </button>
+      </ng-container>
+      <ng-template #createNewListTemplate>
+        <app-list
+          (createlNewListEvent)="createNewList($event)"
+          (cancelNewListEvent)="displayCreateNewList = false"
+        >
+        </app-list>
+      </ng-template>
     </div>
   </div>
 </div>

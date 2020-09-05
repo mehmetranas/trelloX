@@ -1,11 +1,24 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <span
+      <div
         contenteditable
         [textContent]="list?.title"
         (input)="list.title = $event.target.textContent"
-      ></span>
+        (keydown.enter)="createNewList()"
+        class="mat-h2 border rounded px-1"
+      ></div>
+    </div>
+    <div
+      *ngIf="!list.id"
+      class="col-12 d-flex align-items-center justify-content-start"
+    >
+      <button class="btn btn-success btn-sm mx-1" (click)="createNewList()">
+        Create
+      </button>
+      <button class="btn btn-link btn-sm mx-1" (click)="cancelNewList()">
+        Cancel
+      </button>
     </div>
   </div>
   <div class="row">

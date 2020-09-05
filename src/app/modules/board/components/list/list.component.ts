@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { BoardService } from '../../board.service';
+import { List } from 'src/app/shared/models/schemas';
 
 @Component({
   selector: 'app-list',
@@ -13,10 +15,15 @@ import {
 export class ListComponent implements OnInit {
   @Input() list;
   @Input() listIds;
+  @Output() cancelNewListEvent = new EventEmitter();
+  @Output() createlNewListEvent: EventEmitter<List> = new EventEmitter<List>();
+  constructor(private boardService: BoardService) {}
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.list == undefined) {
+      this.list = new List();
+    }
+  }
 
   onCardDrop(event: CdkDragDrop<any[]>) {
     console.log('fired');
@@ -34,5 +41,13 @@ export class ListComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  createNewList() {
+    const listClone = { ...this.list };
+    this.createlNewListEvent.emit(listClone);
+  }
+  cancelNewList() {
+    this.cancelNewListEvent.emit();
   }
 }
