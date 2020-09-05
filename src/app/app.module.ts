@@ -8,7 +8,7 @@ import { ToolBarModule } from './modules/tool-bar/tool-bar.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, BoardModule, ToolBarModule],
+  imports: [BrowserModule, BrowserAnimationsModule, ToolBarModule, BoardModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,1 +1,17 @@
-<p>board works!</p>
+<div class="container">
+  <div
+    class="row flex-nowrap"
+    cdkDropList
+    [cdkDropListData]="lists"
+    (cdkDropListDropped)="onListDrop($event)"
+    cdkDropListOrientation="horizontal"
+  >
+    <div
+      class="col-4 border"
+      cdkDrag
+      *ngFor="let list of lists; let listIndex = index"
+    >
+      <app-list [title]="list.title"></app-list>
+    </div>
+  </div>
+</div>
