@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -23,14 +32,16 @@ import { ConfirmationComponent } from 'src/app/shared/components/confirmation/co
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, AfterViewInit {
   @Input() list;
   @Input() listIds;
   @Output() cancelNewListEvent = new EventEmitter();
-  @Output() createlNewListEvent: EventEmitter<List> = new EventEmitter<List>();
+  @Output() createNewListEvent: EventEmitter<List> = new EventEmitter<List>();
   isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(
     Breakpoints.XSmall
   );
+
+  @ViewChild('listTitleBox', { static: true }) listTitleBox: ElementRef;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private _bottomSheet: MatBottomSheet,
@@ -41,6 +52,12 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     if (this.list == undefined) {
       this.list = new List();
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.list.id) {
+      this.listTitleBox.nativeElement.focus();
     }
   }
 
@@ -63,7 +80,7 @@ export class ListComponent implements OnInit {
 
   createNewList() {
     const listClone = { ...this.list };
-    this.createlNewListEvent.emit(listClone);
+    this.createNewListEvent.emit(listClone);
   }
   cancelNewList() {
     this.cancelNewListEvent.emit();
