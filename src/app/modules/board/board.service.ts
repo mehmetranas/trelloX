@@ -18,6 +18,7 @@ export class BoardService {
     let currentState = this.lists.getValue();
     currentState.push(newList);
     newList.id = String(currentState.length + 1);
+    newList.cards = [];
     this.lists.next(currentState);
   }
 
@@ -25,6 +26,12 @@ export class BoardService {
     return this.lists$;
   }
 
+  addCard(card: Card, listId: string) {
+    let currentState = this.lists.getValue();
+    let list = currentState.find((list) => list.id === listId);
+    card.id = String(list.cards.length + 1);
+    list.cards.push(card);
+  }
   private seedListsData(): void {
     let lists: List[] = [];
     for (let i = 1; i < 3; i++) {
@@ -36,7 +43,7 @@ export class BoardService {
         const card = new Card();
         card.id = 'card' + j;
         card.title = faker.lorem.words(3);
-        // list.cards.push(card);
+        list.cards.push(card);
       }
       lists.push(list);
     }

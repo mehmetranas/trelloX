@@ -25,8 +25,6 @@ export class BoardComponent implements OnInit {
   fetchLists(): void {
     this.boardService.getLists().subscribe((lists: List[]) => {
       this.lists = [...lists];
-      console.log('state', lists);
-      console.log('lists', this.lists);
     });
   }
   onListDrop(event: CdkDragDrop<any[]>) {

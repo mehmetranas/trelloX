@@ -1,0 +1,23 @@
+<div mat-dialog-content>
+  <form [formGroup]="cardForm">
+    <mat-form-field class="w-100">
+      <mat-label>Card Title</mat-label>
+      <textarea
+        matInput
+        formControlName="title"
+        placeholder="What is your idea?"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClose()">Close</button>
+  <button
+    mat-raised-button
+    color="accent"
+    [mat-dialog-close]="cardForm.value"
+    cdkFocusInitial
+  >
+    Save
+  </button>
+</div>

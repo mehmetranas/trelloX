@@ -5,7 +5,10 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { BoardService } from '../../board.service';
-import { List } from 'src/app/shared/models/schemas';
+import { List, Card } from 'src/app/shared/models/schemas';
+import { MatDialog } from '@angular/material/dialog';
+import { CardDetailComponent } from '../card-detail/card-detail.component';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +20,10 @@ export class ListComponent implements OnInit {
   @Input() listIds;
   @Output() cancelNewListEvent = new EventEmitter();
   @Output() createlNewListEvent: EventEmitter<List> = new EventEmitter<List>();
-  constructor(private boardService: BoardService) {}
+  constructor(
+    private boardService: BoardService,
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     if (this.list == undefined) {
@@ -26,7 +32,6 @@ export class ListComponent implements OnInit {
   }
 
   onCardDrop(event: CdkDragDrop<any[]>) {
-    console.log('fired');
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -34,13 +39,13 @@ export class ListComponent implements OnInit {
         event.currentIndex
       );
     } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     }
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex
-    );
   }
 
   createNewList() {
@@ -49,5 +54,16 @@ export class ListComponent implements OnInit {
   }
   cancelNewList() {
     this.cancelNewListEvent.emit();
+  }
+  openCardPanel() {
+    const dialogRef = this.matDialog.open(CardDetailComponent, {
+      width: '35vw',
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeWhile((card: Card) => card != null))
+      .subscribe((card: Card) => {
+        this.boardService.addCard(card, this.list.id);
+      });
   }
 }

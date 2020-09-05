@@ -24,18 +24,32 @@
   <div class="row">
     <div
       class="col-12"
+      style="min-height: 50px"
       cdkDropList
       [id]="list.id"
       [cdkDropListData]="list.cards"
       [cdkDropListConnectedTo]="listIds"
       (cdkDropListDropped)="onCardDrop($event)"
     >
-      <app-card
-        *ngFor="let card of list?.cards; let cardIndex = index"
-        [title]="card?.title + '/' + list?.title"
-        [cdkDragData]="card"
-        cdkDrag
-      ></app-card>
+      <div *ngFor="let card of list?.cards; let cardIndex = index" class="my-2">
+        <app-card
+          [title]="card?.title + '/' + list?.title"
+          [cdkDragData]="card"
+          cdkDrag
+        ></app-card>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="list.id" class="row py-3">
+    <div class="col-12">
+      <button
+        mat-raised-button
+        (click)="openCardPanel()"
+        class="w-100"
+        style="background-color: #f6f5f5"
+      >
+        <mat-icon>add</mat-icon> Lets Add A Card
+      </button>
     </div>
   </div>
 </div>
