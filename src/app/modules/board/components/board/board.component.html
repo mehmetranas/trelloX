@@ -12,8 +12,22 @@
       *ngFor="let list of lists; let listIndex = index"
     >
       <div class="row border py-2">
-        <div class="col-12" cdkDragHandle [cdkDragHandleDisabled]="!list.id">
-          <mat-icon style="cursor: move">drag_handle</mat-icon>
+        <div class="col-12 d-flex align-items-center justify-content-between">
+          <mat-icon
+            cdkDragHandle
+            [cdkDragHandleDisabled]="!list.id"
+            style="cursor: move"
+            matTooltip="Move List"
+            >drag_handle</mat-icon
+          >
+          <button
+            mat-icon-button
+            class="delete-list"
+            (click)="deleteList(list.id)"
+            matTooltip="Delete List"
+          >
+            <mat-icon>remove_circle</mat-icon>
+          </button>
         </div>
         <div class="col-12">
           <app-list [list]="list" [listIds]="listIds"> </app-list>

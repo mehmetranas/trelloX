@@ -22,6 +22,14 @@ export class BoardService {
     this.lists.next(currentState);
   }
 
+  deleteList(listId: string): void {
+    let currentState = this.lists.getValue();
+    const i = currentState.findIndex((list) => list.id === listId);
+    if (i > -1) {
+      currentState.splice(i, 1);
+      this.lists.next(currentState);
+    }
+  }
   getLists(): Observable<List[]> {
     return this.lists$;
   }

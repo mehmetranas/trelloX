@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { A11yModule } from '@angular/cdk/a11y';
+import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [ConfirmationComponent],
   imports: [
@@ -25,6 +26,7 @@ import { A11yModule } from '@angular/cdk/a11y';
     MatCardModule,
     MatBottomSheetModule,
     A11yModule,
+    MatTooltipModule,
   ],
   entryComponents: [ConfirmationComponent],
   exports: [
@@ -39,6 +41,7 @@ import { A11yModule } from '@angular/cdk/a11y';
     MatCardModule,
     ConfirmationComponent,
     A11yModule,
+    MatTooltipModule,
   ],
 })
 export class SharedModule {}

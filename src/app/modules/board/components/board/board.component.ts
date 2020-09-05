@@ -6,6 +6,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { List } from 'src/app/shared/models/schemas';
 import { BoardService } from '../../board.service';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-board',
@@ -16,7 +19,10 @@ export class BoardComponent implements OnInit {
   lists: List[] = [];
   newList: List;
   displayCreateNewList: boolean = false;
-  constructor(private boardService: BoardService) {}
+  constructor(
+    private boardService: BoardService,
+    private _bottomSheet: MatBottomSheet
+  ) {}
 
   ngOnInit(): void {
     this.fetchLists();
@@ -25,6 +31,7 @@ export class BoardComponent implements OnInit {
   fetchLists(): void {
     this.boardService.getLists().subscribe((lists: List[]) => {
       this.lists = [...lists];
+      console.log('on subs', lists);
     });
   }
   onListDrop(event: CdkDragDrop<any[]>) {
@@ -38,6 +45,14 @@ export class BoardComponent implements OnInit {
   createNewList(list: List) {
     this.boardService.addNewList(list);
     this.displayCreateNewList = false;
+  }
+
+  deleteList(listId: string) {
+    this._bottomSheet
+      .open(ConfirmationComponent, { data: 'Are you sure to delete list?' })
+      .afterDismissed()
+      .pipe(takeWhile((result) => result))
+      .subscribe(() => this.boardService.deleteList(listId));
   }
 
   get listIds(): string[] {
