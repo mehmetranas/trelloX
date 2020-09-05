@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BoardComponent } from './components/board/board.component';
 import { ListComponent } from './components/list/list.component';
 import { CardComponent } from './components/card/card.component';
-import { SharedModule } from 'src/app/shared/shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { CardDetailComponent } from './components/card-detail/card-detail.component';
 import { ReactiveFormsModule } from '@angular/forms';
 

@@ -32,6 +32,22 @@ export class BoardService {
     card.id = String(list.cards.length + 1);
     list.cards.push(card);
   }
+
+  updateCard(card: Card, listId: string) {
+    let currentState = this.lists.getValue();
+    let list = currentState.find((list) => list.id === listId);
+    let currentCard = list.cards.find((c) => c.id === card.id);
+    Object.assign(currentCard, card);
+  }
+
+  deleteCard(cardId: string, listId: string) {
+    let currentState = this.lists.getValue();
+    let list = currentState.find((list) => list.id === listId);
+    const i = list.cards.findIndex((c) => c.id === cardId);
+    if (i > -1) {
+      list.cards.splice(i, 1);
+    }
+  }
   private seedListsData(): void {
     let lists: List[] = [];
     for (let i = 1; i < 3; i++) {

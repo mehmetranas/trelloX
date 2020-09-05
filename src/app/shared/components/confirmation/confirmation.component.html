@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 d-flex align-items-center">
+      <p class="mat-body mb-0 font-weight-bold">
+        {{ text }}
+      </p>
+      <button mat-button color="warn" (click)="onConfirm()" class="ml-auto">
+        Go on
+      </button>
+      <button mat-button cdkFocusInitial (click)="onCancel()">
+        I am not sure
+      </button>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@
         [textContent]="list?.title"
         (input)="list.title = $event.target.textContent"
         (keydown.enter)="createNewList()"
-        class="mat-h2 border rounded px-1"
+        class="mat-h2 px-1"
       ></div>
     </div>
     <div
@@ -31,12 +31,22 @@
       [cdkDropListConnectedTo]="listIds"
       (cdkDropListDropped)="onCardDrop($event)"
     >
-      <div *ngFor="let card of list?.cards; let cardIndex = index" class="my-2">
-        <app-card
-          [title]="card?.title + '/' + list?.title"
-          [cdkDragData]="card"
-          cdkDrag
-        ></app-card>
+      <div
+        *ngFor="let card of list?.cards; let cardIndex = index"
+        class="my-2 position-relative card-container"
+        (click)="openCardPanel(card)"
+        style="cursor: pointer"
+      >
+        <div class="delete-card">
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteCard($event, card.id)"
+          >
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+        <app-card [card]="card" [cdkDragData]="card" cdkDrag></app-card>
       </div>
     </div>
   </div>

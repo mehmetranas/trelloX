@@ -1,0 +1,26 @@
+.card-container {
+  --redColor: 244, 67, 54;
+  .delete-card {
+    position: absolute;
+    transform: translateY(-100%);
+    right: 10px;
+    zoom: 0.7;
+    opacity: 0;
+    z-index: 1;
+    &:hover {
+      padding-top: 0.2em;
+      button {
+        background: rgba(var(--redColor), 1);
+        color: #fff !important;
+        outline: none !important;
+      }
+    }
+  }
+  &:hover {
+    .delete-card {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.2s linear;
+    }
+  }
+}
