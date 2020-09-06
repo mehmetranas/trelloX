@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserComment } from 'src/app/shared/models/schemas';
 
 @Component({
@@ -8,7 +8,12 @@ import { UserComment } from 'src/app/shared/models/schemas';
 })
 export class CommentComponent implements OnInit {
   @Input() comment: UserComment;
+  @Output() onEdit = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
+
+  _onEdit(): void {
+    this.onEdit.emit();
+  }
 }

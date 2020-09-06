@@ -26,6 +26,7 @@ export class CardDetailComponent implements OnInit {
   newComment: string;
   tags: Tag[];
   displayTags: boolean = false;
+  onEditCardTitle: boolean = false;
   onNewComment: boolean = false;
   constructor(
     private fb: FormBuilder,
@@ -50,12 +51,29 @@ export class CardDetailComponent implements OnInit {
       tags: [[]],
     });
     if (this.data.card != null) {
-      this.cardForm.patchValue({
-        title: this.data.card.title,
-        id: this.data.card.id,
-        tags: this.data.card.tags,
-      });
+      this.patchForm(this.data.card);
     }
+  }
+
+  private patchForm(card: Card) {
+    this.cardForm.patchValue({
+      title: card.title,
+      id: card.id,
+      tags: card.tags || [],
+    });
+  }
+
+  saveCard(): void {
+    if (this.cardForm.invalid) return;
+    let card = { ...this.cardForm.value };
+    let responseCard: Card;
+    if (card.id) {
+      responseCard = this.boardService.updateCard(card, this.data.listId);
+    } else {
+      responseCard = this.boardService.addCard(card, this.data.listId);
+    }
+    this.patchForm(responseCard);
+    this.onEditCardTitle = false;
   }
 
   addTagToCard(tag: Tag): void {
@@ -82,6 +100,7 @@ export class CardDetailComponent implements OnInit {
   }
 
   addComment() {
+    if (this.cardForm.invalid || !this.cardForm.get('id').value) return;
     let newComment: UserComment = new UserComment();
     newComment.content = this.newComment;
     this.boardService.addComment(

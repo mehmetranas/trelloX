@@ -3,7 +3,6 @@ import { List, Card, Tag, UserComment } from 'src/app/shared/models/schemas';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import * as faker from 'faker';
-import { timeStamp } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -37,18 +36,20 @@ export class BoardService {
     return this.lists$;
   }
 
-  addCard(card: Card, listId: string) {
+  addCard(card: Card, listId: string): Card {
     let currentState = this.lists.getValue();
     let list = currentState.find((list) => list.id === listId);
     card.id = String(list.cards.length + 1);
     list.cards.push(card);
+    return card;
   }
 
-  updateCard(card: Card, listId: string) {
+  updateCard(card: Card, listId: string): Card {
     let currentState = this.lists.getValue();
     let list = currentState.find((list) => list.id === listId);
     let currentCard = list.cards.find((c) => c.id === card.id);
     Object.assign(currentCard, card);
+    return currentCard; // It is actually updated card
   }
 
   deleteCard(cardId: string, listId: string) {

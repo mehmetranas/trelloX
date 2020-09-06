@@ -14,7 +14,7 @@
       </button>
       <div class="selected-tags d-flex align-items-center">
         <span
-          *ngFor="let tag of data.card.tags"
+          *ngFor="let tag of cardForm.get('tags').value"
           style="zoom: 0.4"
           [class]="'mx-2 rounded-pill border border-dark badge ' + tag.color"
         >
@@ -69,8 +69,22 @@
       <textarea
         matInput
         formControlName="title"
+        cdkFocusInitial
+        (blur)="onEditCardTitle = false; saveCard()"
+        (focus)="onEditCardTitle = true"
         placeholder="What is your idea ?"
+        #titleInput
       ></textarea>
+      <div class="title-buttons my-2">
+        <button
+          *ngIf="onEditCardTitle"
+          mat-raised-button
+          color="accent"
+          [disabled]="cardForm.invalid"
+        >
+          Save
+        </button>
+      </div>
     </mat-form-field>
 
     <!-- Card Comments -->
@@ -86,43 +100,34 @@
       [(ngModel)]="newComment"
       placeholder="Is there any question ?"
       (focus)="onNewComment = true"
+      (blur)="onNewComment = !!newComment"
     ></textarea>
   </mat-form-field>
-  <button
-    *ngIf="onNewComment"
-    mat-raised-button
-    class="mx-1"
-    [disabled]="!newComment || newComment.trim().length === 0"
-    (click)="addComment()"
-  >
-    Add Comment
-  </button>
-  <button
-    [class.d-none]="!onNewComment"
-    mat-button
-    type="button"
-    class="mb-2 mx-1"
-    (click)="onNewComment = false; newComment = ''"
-  >
-    Cancel
-  </button>
+
+  <!-- Comment Buttons -->
+  <div class="comment-button my-2">
+    <button
+      *ngIf="onNewComment"
+      color="accent"
+      mat-raised-button
+      class="mx-1"
+      (click)="addComment()"
+      [disabled]="!newComment || newComment.trim().length === 0"
+    >
+      Add Comment
+    </button>
+  </div>
 
   <!-- Comments List -->
-  <div *ngFor="let comment of data.card.comments" class="my-2">
-    <app-comment [comment]="comment"></app-comment>
+  <div *ngFor="let comment of data?.card?.comments" class="my-2">
+    <app-comment
+      [comment]="comment"
+      (inEdit)="newComment = comment"
+    ></app-comment>
   </div>
 </div>
 
 <!-- Actions -->
 <div mat-dialog-actions class="d-flex">
   <button mat-button (click)="onClose()" class="ml-auto">Close</button>
-  <button
-    mat-raised-button
-    color="accent"
-    [mat-dialog-close]="cardForm.value"
-    cdkFocusInitial
-    [disabled]="cardForm.invalid"
-  >
-    Save
-  </button>
 </div>
