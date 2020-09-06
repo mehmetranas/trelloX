@@ -14,7 +14,7 @@
       </button>
       <div class="selected-tags d-flex align-items-center">
         <span
-          *ngFor="let tag of card.tags"
+          *ngFor="let tag of data.card.tags"
           style="zoom: 0.4"
           [class]="'mx-2 rounded-pill border border-dark badge ' + tag.color"
         >
@@ -61,17 +61,56 @@
 
 <!-- Card Content -->
 <div mat-dialog-content>
+  <div mat-dialog-title>Title</div>
   <form [formGroup]="cardForm">
+    <!-- Card Title -->
     <mat-form-field class="w-100">
       <mat-label>Card Title</mat-label>
       <textarea
         matInput
         formControlName="title"
-        placeholder="What is your idea?"
+        placeholder="What is your idea ?"
       ></textarea>
     </mat-form-field>
-    <mat-divider class="my-2 w-100"></mat-divider>
+
+    <!-- Card Comments -->
+    <div mat-dialog-title>All Comments</div>
   </form>
+  <mat-form-field class="w-100">
+    <mat-label>Add A Comment</mat-label>
+    <textarea
+      class="new-comment"
+      rows="3"
+      matInput
+      name="newComment"
+      [(ngModel)]="newComment"
+      placeholder="Is there any question ?"
+      (focus)="onNewComment = true"
+    ></textarea>
+  </mat-form-field>
+  <button
+    *ngIf="onNewComment"
+    mat-raised-button
+    class="mx-1"
+    [disabled]="!newComment || newComment.trim().length === 0"
+    (click)="addComment()"
+  >
+    Add Comment
+  </button>
+  <button
+    [class.d-none]="!onNewComment"
+    mat-button
+    type="button"
+    class="mb-2 mx-1"
+    (click)="onNewComment = false; newComment = ''"
+  >
+    Cancel
+  </button>
+
+  <!-- Comments List -->
+  <div *ngFor="let comment of data.card.comments" class="my-2">
+    <app-comment [comment]="comment"></app-comment>
+  </div>
 </div>
 
 <!-- Actions -->

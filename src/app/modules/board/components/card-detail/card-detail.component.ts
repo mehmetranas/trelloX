@@ -1,11 +1,19 @@
-import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewEncapsulation,
+  ElementRef,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Card, Tag } from 'src/app/shared/models/schemas';
+import { Card, Tag, UserComment } from 'src/app/shared/models/schemas';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { TagsContainerComponent } from 'src/app/shared/components/tags-container/tags-container.component';
 import { BoardService } from '../../board.service';
 import { take } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-card-detail',
@@ -15,14 +23,16 @@ import { take } from 'rxjs/operators';
 })
 export class CardDetailComponent implements OnInit {
   cardForm: FormGroup;
+  newComment: string;
   tags: Tag[];
   displayTags: boolean = false;
+  onNewComment: boolean = false;
   constructor(
     private fb: FormBuilder,
     private boardService: BoardService,
     private _bottomSheet: MatBottomSheet,
     public dialogRef: MatDialogRef<CardDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public card: Card
+    @Inject(MAT_DIALOG_DATA) public data: { card: Card; listId: string }
   ) {}
 
   ngOnInit(): void {
@@ -39,11 +49,11 @@ export class CardDetailComponent implements OnInit {
       title: ['', Validators.required],
       tags: [[]],
     });
-    if (this.card != null) {
+    if (this.data.card != null) {
       this.cardForm.patchValue({
-        title: this.card.title,
-        id: this.card.id,
-        tags: this.card.tags,
+        title: this.data.card.title,
+        id: this.data.card.id,
+        tags: this.data.card.tags,
       });
     }
   }
@@ -71,6 +81,17 @@ export class CardDetailComponent implements OnInit {
     console.log('saved');
   }
 
+  addComment() {
+    let newComment: UserComment = new UserComment();
+    newComment.content = this.newComment;
+    this.boardService.addComment(
+      newComment,
+      this.data.card.id,
+      this.data.listId
+    );
+    this.newComment = '';
+    this.onNewComment = false;
+  }
   onClose(): void {
     this.dialogRef.close();
   }

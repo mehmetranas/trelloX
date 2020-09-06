@@ -89,7 +89,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     const dialogRef = this.matDialog.open(CardDetailComponent, {
       width: '60%',
       maxWidth: '100vw',
-      data: card || undefined,
+      data:
+        {
+          card: card,
+          listId: this.list.id,
+        } || undefined,
     });
     const smallDialogSubscription = this.isExtraSmall.subscribe((size) => {
       if (size.matches) {

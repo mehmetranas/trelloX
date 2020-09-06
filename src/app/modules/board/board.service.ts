@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { List, Card, Tag } from 'src/app/shared/models/schemas';
+import { List, Card, Tag, UserComment } from 'src/app/shared/models/schemas';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import * as faker from 'faker';
@@ -68,6 +68,31 @@ export class BoardService {
     let currentState = this.tags.getValue();
     currentState.find((t) => t.id === tag.id).title = tag.title;
   }
+
+  addComment(newComment: UserComment, cardId: string, listId: string) {
+    let currentState = this.lists.getValue();
+    let list = currentState.find((list) => list.id === listId);
+    let card = list.cards.find((card) => card.id === cardId);
+    card.comments.push(newComment);
+  }
+
+  updateComment(comment: UserComment, cardId: string, listId: string) {
+    let currentState = this.lists.getValue();
+    let list = currentState.find((list) => list.id === listId);
+    let card = list.cards.find((card) => card.id === cardId);
+    card.comments.find((c) => c.id === comment.id).content = comment.content;
+  }
+
+  deleteComment(commentId: string, listId: string, cardId: string) {
+    let currentState = this.lists.getValue();
+    let list = currentState.find((list) => list.id === listId);
+    let card = list.cards.find((card) => card.id === cardId);
+    const i = card.comments.findIndex((card) => (card.id = cardId));
+    if (i > -1) {
+      card.comments.splice(i, 1);
+    }
+  }
+
   private seedListsData(): void {
     // Seed List and Cards data
     let lists: List[] = [];
