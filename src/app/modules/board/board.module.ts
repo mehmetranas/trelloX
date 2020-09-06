@@ -7,6 +7,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CardDetailComponent } from './components/card-detail/card-detail.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommentComponent } from './components/comment/comment.component';
+import { InputCommentAreaComponent } from './components/input-comment-area/input-comment-area.component';
+import { CreateCardInputComponent } from './create-card-input/create-card-input.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { CommentComponent } from './components/comment/comment.component';
     CardComponent,
     CardDetailComponent,
     CommentComponent,
+    InputCommentAreaComponent,
+    CreateCardInputComponent,
   ],
   imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule],
   entryComponents: [CardDetailComponent],

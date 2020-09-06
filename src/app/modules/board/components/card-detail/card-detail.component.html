@@ -86,43 +86,21 @@
         </button>
       </div>
     </mat-form-field>
-
-    <!-- Card Comments -->
-    <div mat-dialog-title>All Comments</div>
   </form>
-  <mat-form-field class="w-100">
-    <mat-label>Add A Comment</mat-label>
-    <textarea
-      class="new-comment"
-      rows="3"
-      matInput
-      name="newComment"
-      [(ngModel)]="newComment"
-      placeholder="Is there any question ?"
-      (focus)="onNewComment = true"
-      (blur)="onNewComment = !!newComment"
-    ></textarea>
-  </mat-form-field>
 
-  <!-- Comment Buttons -->
-  <div class="comment-button my-2">
-    <button
-      *ngIf="onNewComment"
-      color="accent"
-      mat-raised-button
-      class="mx-1"
-      (click)="addComment()"
-      [disabled]="!newComment || newComment.trim().length === 0"
-    >
-      Add Comment
-    </button>
-  </div>
+  <!-- Card Comments -->
+  <div mat-dialog-title>All Comments</div>
+  <app-input-comment-area
+    [content]="newComment.content"
+    [isEdit]="!!newComment.id"
+    (commentChanged)="addOrUpdateComment($event)"
+  ></app-input-comment-area>
 
   <!-- Comments List -->
-  <div *ngFor="let comment of data?.card?.comments" class="my-2">
+  <div *ngFor="let comment of card?.comments" class="my-2">
     <app-comment
       [comment]="comment"
-      (inEdit)="newComment = comment"
+      (onEdit)="newComment = comment"
     ></app-comment>
   </div>
 </div>

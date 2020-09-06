@@ -56,12 +56,18 @@
         <app-card [card]="card" [cdkDragData]="card" cdkDrag></app-card>
       </div>
     </div>
+    <div *ngIf="displayCreateCardInput" class="col-12 mt-2">
+      <app-create-card-input
+        (cardTitle)="createCard($event)"
+        (onClose)="displayCreateCardInput = false"
+      ></app-create-card-input>
+    </div>
   </div>
   <div *ngIf="list.id" class="row py-3">
     <div class="col-12">
       <button
         mat-raised-button
-        (click)="openCardPanel()"
+        (click)="displayCreateCardInput = true"
         class="w-100"
         style="background-color: #f6f5f5"
       >

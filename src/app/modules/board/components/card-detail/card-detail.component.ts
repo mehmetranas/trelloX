@@ -9,21 +9,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Card, Tag, UserComment } from 'src/app/shared/models/schemas';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { TagsContainerComponent } from 'src/app/shared/components/tags-container/tags-container.component';
 import { BoardService } from '../../board.service';
-import { take } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
-import { MatInput } from '@angular/material/input';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-card-detail',
   templateUrl: './card-detail.component.html',
   styleUrls: ['./card-detail.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class CardDetailComponent implements OnInit {
   cardForm: FormGroup;
-  newComment: string;
+  card: Card;
+  newComment: UserComment = new UserComment();
   tags: Tag[];
   displayTags: boolean = false;
   onEditCardTitle: boolean = false;
@@ -33,7 +30,8 @@ export class CardDetailComponent implements OnInit {
     private boardService: BoardService,
     private _bottomSheet: MatBottomSheet,
     public dialogRef: MatDialogRef<CardDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { card: Card; listId: string }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { cardId: string; card: Card; listId: string }
   ) {}
 
   ngOnInit(): void {
@@ -50,8 +48,14 @@ export class CardDetailComponent implements OnInit {
       title: ['', Validators.required],
       tags: [[]],
     });
-    if (this.data.card != null) {
-      this.patchForm(this.data.card);
+    if (this.data.cardId != null) {
+      this.boardService
+        .getCardById(this.data.cardId, this.data.listId)
+        .subscribe((card) => {
+          this.patchForm(card);
+          this.card = card;
+          console.log('card', card);
+        });
     }
   }
 
@@ -99,18 +103,19 @@ export class CardDetailComponent implements OnInit {
     console.log('saved');
   }
 
-  addComment() {
+  addOrUpdateComment(event: string) {
     if (this.cardForm.invalid || !this.cardForm.get('id').value) return;
-    let newComment: UserComment = new UserComment();
-    newComment.content = this.newComment;
-    this.boardService.addComment(
-      newComment,
-      this.data.card.id,
+    this.newComment.content = event;
+    const responseComment = this.boardService.addOrUpdateComment(
+      this.newComment,
+      this.cardForm.get('id').value,
       this.data.listId
     );
-    this.newComment = '';
+    this.newComment = new UserComment();
     this.onNewComment = false;
   }
+
+  deleteComment() {}
   onClose(): void {
     this.dialogRef.close();
   }

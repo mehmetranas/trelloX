@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TagsContainerComponent } from './tags-container.component';
+import { CreateCardInputComponent } from './create-card-input.component';
 
-describe('TagsContainerComponent', () => {
-  let component: TagsContainerComponent;
-  let fixture: ComponentFixture<TagsContainerComponent>;
+describe('CreateCardInputComponent', () => {
+  let component: CreateCardInputComponent;
+  let fixture: ComponentFixture<CreateCardInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TagsContainerComponent ]
+      declarations: [ CreateCardInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TagsContainerComponent);
+    fixture = TestBed.createComponent(CreateCardInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,6 +3,7 @@ import { List, Card, Tag, UserComment } from 'src/app/shared/models/schemas';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import * as faker from 'faker';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,13 @@ export class BoardService {
   constructor() {
     this.seedListsData();
   }
-  addNewList(newList: List): void {
+  addNewList(list: List): void {
     let currentState = this.lists.getValue();
-    currentState.push(newList);
-    newList.id = String(currentState.length + 1);
+    let newList = new List();
     newList.cards = [];
+    newList.title = list.title;
+    newList.id = String(currentState.length + 1);
+    currentState.push(newList);
     this.lists.next(currentState);
   }
 
@@ -34,6 +37,15 @@ export class BoardService {
   }
   getLists(): Observable<List[]> {
     return this.lists$;
+  }
+
+  getCardById(cardId: string, listId: string): Observable<Card> {
+    return this.lists.pipe(
+      map((lists) => {
+        const cards = lists.find((l) => l.id === listId).cards;
+        return cards.find((c) => c.id === cardId);
+      })
+    );
   }
 
   addCard(card: Card, listId: string): Card {
@@ -70,11 +82,24 @@ export class BoardService {
     currentState.find((t) => t.id === tag.id).title = tag.title;
   }
 
-  addComment(newComment: UserComment, cardId: string, listId: string) {
+  addOrUpdateComment(
+    newComment: UserComment,
+    cardId: string,
+    listId: string
+  ): UserComment {
     let currentState = this.lists.getValue();
     let list = currentState.find((list) => list.id === listId);
     let card = list.cards.find((card) => card.id === cardId);
-    card.comments.push(newComment);
+    if (!!newComment.id) {
+      card.comments.find((c) => c.id === newComment.id).content =
+        newComment.content;
+    } else {
+      if (!card.comments) card.comments = [];
+      newComment.id = String(card.comments.length + 1);
+      card.comments.push(newComment);
+      this.lists.next(currentState);
+      return newComment;
+    }
   }
 
   updateComment(comment: UserComment, cardId: string, listId: string) {

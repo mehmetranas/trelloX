@@ -37,6 +37,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   @Input() listIds;
   @Output() cancelNewListEvent = new EventEmitter();
   @Output() createNewListEvent: EventEmitter<List> = new EventEmitter<List>();
+  displayCreateCardInput: boolean = false;
   isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(
     Breakpoints.XSmall
   );
@@ -85,6 +86,15 @@ export class ListComponent implements OnInit, AfterViewInit {
   cancelNewList() {
     this.cancelNewListEvent.emit();
   }
+
+  createCard(title: string) {
+    const card = new Card();
+    card.title = title;
+    card.tags = [];
+    card.comments = [];
+    this.boardService.addCard(card, this.list.id);
+    this.displayCreateCardInput = false;
+  }
   openCardPanel(card?: Card) {
     const dialogRef = this.matDialog.open(CardDetailComponent, {
       width: '60%',
@@ -92,6 +102,7 @@ export class ListComponent implements OnInit, AfterViewInit {
       data:
         {
           card: card,
+          cardId: card ? card.id : undefined,
           listId: this.list.id,
         } || undefined,
     });

@@ -4,7 +4,9 @@
     <p class="card-text">
       {{ comment?.content }}
     </p>
-    <button class="card-link" (click)="_onEdit()">Edit</button>
-    <a href="#" class="card-link">Delete</a>
+    <button mat-raised-button color="accent" (click)="_onEdit()" class="mx-1">
+      Edit
+    </button>
+    <button mat-button (click)="_onEdit()" class="mx-1">Cancel</button>
   </div>
 </div>

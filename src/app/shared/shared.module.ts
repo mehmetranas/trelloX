@@ -13,10 +13,9 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
-import { TagsContainerComponent } from './components/tags-container/tags-container.component';
 
 @NgModule({
-  declarations: [ConfirmationComponent, TagsContainerComponent],
+  declarations: [ConfirmationComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -47,7 +46,6 @@ import { TagsContainerComponent } from './components/tags-container/tags-contain
     A11yModule,
     MatTooltipModule,
     MatDividerModule,
-    TagsContainerComponent,
   ],
 })
 export class SharedModule {}
