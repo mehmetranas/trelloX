@@ -14,7 +14,13 @@
       *ngIf="!list.id"
       class="col-12 d-flex align-items-center justify-content-start"
     >
-      <button class="btn btn-success btn-sm mx-1" (click)="createNewList()">
+      <button
+        class="btn btn-success btn-sm mx-1"
+        [disabled]="
+          !list?.title || list.length === 0 || list.title.trim().length === 0
+        "
+        (click)="createNewList()"
+      >
         Create
       </button>
       <button class="btn btn-link btn-sm mx-1" (click)="cancelNewList()">
@@ -34,7 +40,7 @@
     >
       <div
         *ngFor="let card of list?.cards; let cardIndex = index"
-        class="my-2 position-relative card-container"
+        class="my-2 position-relative card-container mat-elevation-z1 overflow-hidden"
         (click)="openCardPanel(card)"
         style="cursor: pointer"
       >

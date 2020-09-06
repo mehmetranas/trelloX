@@ -9,3 +9,26 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.small-tooltip {
+  font-size: 0.7em;
+  padding: 0.1em;
+}
+
+// Override Bootstrap
+
+.app-tag.badge:empty,
+.app-tag.badge {
+  display: inline-block;
+  min-width: 5rem !important;
+  min-height: 1rem !important;
+  line-height: 1rem !important;
+}
+
+// Override Material Design
+button {
+  &:active,
+  &:focus {
+    outline: none !important;
+  }
+}

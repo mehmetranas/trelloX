@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { List, Card } from 'src/app/shared/models/schemas';
+import { List, Card, Tag } from 'src/app/shared/models/schemas';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Observable } from 'rxjs/internal/Observable';
 import * as faker from 'faker';
+import { timeStamp } from 'console';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BoardService {
+  private tags: BehaviorSubject<Tag[]> = new BehaviorSubject<Tag[]>([]);
+  public tags$: Observable<Tag[]> = this.tags.asObservable();
   private lists: BehaviorSubject<List[]> = new BehaviorSubject<List[]>([]);
   public lists$: Observable<List[]> = this.lists.asObservable();
 
@@ -56,7 +59,17 @@ export class BoardService {
       list.cards.splice(i, 1);
     }
   }
+
+  listTags(): Observable<Tag[]> {
+    return this.tags$;
+  }
+
+  updateTagTitle(tag: Tag) {
+    let currentState = this.tags.getValue();
+    currentState.find((t) => t.id === tag.id).title = tag.title;
+  }
   private seedListsData(): void {
+    // Seed List and Cards data
     let lists: List[] = [];
     for (let i = 1; i < 3; i++) {
       const list = new List();
@@ -70,8 +83,24 @@ export class BoardService {
         list.cards.push(card);
       }
       lists.push(list);
-    }
+      this.lists.next(lists);
 
-    this.lists.next(lists);
+      // Seed Tags
+      let tags: Tag[] = [];
+      const tagColors = [
+        'badge-warning',
+        'badge-primary',
+        'badge-secondary',
+        'badge-danger',
+      ];
+      tagColors.forEach((color, index) => {
+        const tag = new Tag();
+        tag.id = 'tag-' + index;
+        tag.color = color;
+        tags.push(tag);
+      });
+
+      this.tags.next(tags);
+    }
   }
 }

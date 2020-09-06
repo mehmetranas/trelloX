@@ -1,11 +1,19 @@
+export class Tag {
+  id: string;
+  color: string;
+  title: string;
+}
+
 export interface ICard {
   id: string;
   title: string;
+  tags: Tag[];
 }
 
 export class Card implements ICard {
   id: string;
   title: string;
+  tags: Tag[] = [];
 }
 
 export interface IList {
