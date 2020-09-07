@@ -118,5 +118,6 @@ export class CardDetailComponent implements OnInit {
 
   classNameSelected(event: string): void {
     this.card.colorClass = event;
+    this.boardService.updateCard(this.card, this.data.listId);
   }
 }

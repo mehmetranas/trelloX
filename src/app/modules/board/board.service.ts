@@ -61,6 +61,7 @@ export class BoardService {
     card.listId = listId;
     card.colorClass = 'bg-light';
     list.cards.push(card);
+    this.lists.next(currentState);
     return card;
   }
 
