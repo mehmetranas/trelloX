@@ -27,7 +27,8 @@ body {
 }
 
 .cdk-drag-preview {
-  border: 2px dashed #c29628;
+  border: 2px dashed;
+  border-color: #000;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
