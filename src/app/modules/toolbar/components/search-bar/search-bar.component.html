@@ -1,0 +1,24 @@
+<form style="font-size: 0.9em">
+  <mat-form-field appearance="standard" [floatLabel]="false">
+    <input
+      matInput
+      placeholder="Search Cards..."
+      aria-label="Search Card..."
+      [matAutocomplete]="auto"
+      [formControl]="searchTerm"
+    />
+    <mat-icon matSuffix>search</mat-icon>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionActivated)="onSelected($event)"
+    >
+      <mat-option
+        *ngFor="let item of filteredStates | async"
+        [value]="item.title"
+        (click)="onSelected(item)"
+      >
+        {{ item.title }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

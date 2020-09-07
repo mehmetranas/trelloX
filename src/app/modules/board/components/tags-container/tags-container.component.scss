@@ -1,0 +1,23 @@
+button.add-tags {
+  outline: none !important;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active,
+  &:focus {
+    opacity: 0.92;
+  }
+}
+
+.available-tags-container {
+  height: 0;
+  overflow: hidden;
+  transform: scaleY(0);
+  &.on-display {
+    height: auto;
+    transform: scaleY(1);
+    transition: transform 0.1s ease-in-out;
+    transition-delay: 50;
+    transform-origin: top;
+  }
+}

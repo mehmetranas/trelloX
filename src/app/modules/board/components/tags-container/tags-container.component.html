@@ -1,0 +1,56 @@
+<div class="row">
+  <!-- Card Selected Tags -->
+  <div class="col-12 d-flex align-items-center">
+    <button
+      mat-icon-button
+      class="add-tags mr-3"
+      (click)="displayTags = !displayTags"
+    >
+      <mat-icon class="tag-label" [class.rotate90]="displayTags">label</mat-icon
+      >Tags
+    </button>
+    <div class="selected-tags d-flex align-items-center">
+      <span
+        *ngFor="let tag of tagsSelected"
+        style="zoom: 0.4"
+        [class]="'mx-2 rounded-pill border border-dark badge ' + tag.color"
+      >
+        <span *ngIf="tag.title" class="mat-h1 p-3" style="line-height: 1.6">{{
+          tag.title
+        }}</span>
+        <button mat-icon-button (click)="_removeTagFromCard(tag.id)">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <!-- All Available Tags -->
+  <div
+    class="col-12 d-flex align-items-center my-3 available-tags-container"
+    [class.on-display]="displayTags"
+  >
+    <span
+      *ngFor="let tag of tags"
+      [class]="'d-flex align-items-center app-tag badge mx-1 ' + tag.color"
+    >
+      <span
+        contenteditable
+        class="w-75"
+        (keydown.enter)="$event.target.blur(); _saveTag(tag); (false)"
+        (blur)="_saveTag(tag)"
+        (input)="tag.title = $event.target.textContent"
+        [textContent]="tag?.title"
+      ></span>
+      <button
+        style="zoom: 0.6"
+        mat-icon-button
+        type="button"
+        (click)="_addTagToCard(tag)"
+        [disabled]="isTagAdded(tag.id)"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </span>
+  </div>
+</div>

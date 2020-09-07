@@ -1,62 +1,26 @@
-<div mat-dialog-card-header>
-  <!-- Tags -->
+<!-- Card Color -->
+<div class="color-band">
   <div class="row">
-    <!-- Card Selected Tags -->
-    <div class="col-12 d-flex align-items-center">
-      <button
-        mat-icon-button
-        class="add-tags mr-3"
-        (click)="displayTags = !displayTags"
-      >
-        <mat-icon class="tag-label" [class.rotate90]="displayTags"
-          >label</mat-icon
-        >Tags
-      </button>
-      <div class="selected-tags d-flex align-items-center">
-        <span
-          *ngFor="let tag of cardForm.get('tags').value"
-          style="zoom: 0.4"
-          [class]="'mx-2 rounded-pill border border-dark badge ' + tag.color"
-        >
-          <span *ngIf="tag.title" class="mat-h1 p-3" style="line-height: 1.6">{{
-            tag.title
-          }}</span>
-          <button mat-icon-button (click)="removeTagFromCard(tag.id)">
-            <mat-icon>clear</mat-icon>
-          </button>
-        </span>
-      </div>
-    </div>
-
-    <!-- All Available Tags -->
     <div
-      class="col-12 d-flex align-items-center my-3 available-tags-container"
-      [class.on-display]="displayTags"
+      [class]="
+        'col-12 d-flex align-items-center justify-content-end ' +
+        card.colorClass
+      "
+      style="height: 35px; color: #fff"
     >
-      <span
-        *ngFor="let tag of tags"
-        [class]="'d-flex align-items-center app-tag badge mx-1 ' + tag.color"
-      >
-        <span
-          contenteditable
-          class="w-75"
-          (keydown.enter)="$event.target.blur(); saveTag(tag); (false)"
-          (blur)="saveTag(tag)"
-          (input)="tag.title = $event.target.textContent"
-          [textContent]="tag?.title"
-        ></span>
-        <button
-          style="zoom: 0.6"
-          mat-icon-button
-          type="button"
-          (click)="addTagToCard(tag)"
-          [disabled]="isTagAdded(tag.id)"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-      </span>
+      <app-select-color-menu-button></app-select-color-menu-button>
     </div>
   </div>
+</div>
+
+<div mat-dialog-card-header class="pt-4">
+  <!-- Tags -->
+  <app-tags-container
+    [tagsSelected]="cardForm.get('tags').value"
+    (removeTagFromCard)="removeTagFromCard($event)"
+    (saveTag)="saveTag($event)"
+    (addTagToCard)="addTagToCard($event)"
+  ></app-tags-container>
 </div>
 
 <!-- Card Content -->
@@ -69,7 +33,6 @@
       <textarea
         matInput
         formControlName="title"
-        cdkFocusInitial
         (blur)="onEditCardTitle = false; saveCard()"
         (focus)="onEditCardTitle = true"
         placeholder="What is your idea ?"

@@ -5,6 +5,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BoardModule } from './modules/board/board.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ToolbarComponent } from './modules/toolbar/components/toolbar/toolbar.component';
+import { SearchBarComponent } from './modules/toolbar/components/search-bar/search-bar.component';
+import { ToolbarModule } from './modules/toolbar/toolbar.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     BrowserAnimationsModule,
     BoardModule,
     MatToolbarModule,
+    ToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

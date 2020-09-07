@@ -13,9 +13,12 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 import { A11yModule } from '@angular/cdk/a11y';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CardComponent } from './components/card/card.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
-  declarations: [ConfirmationComponent],
+  declarations: [ConfirmationComponent, CardComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -30,6 +33,9 @@ import { MatDividerModule } from '@angular/material/divider';
     A11yModule,
     MatTooltipModule,
     MatDividerModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatMenuModule,
   ],
   entryComponents: [ConfirmationComponent],
   exports: [
@@ -46,6 +52,10 @@ import { MatDividerModule } from '@angular/material/divider';
     A11yModule,
     MatTooltipModule,
     MatDividerModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    CardComponent,
+    MatMenuModule,
   ],
 })
 export class SharedModule {}

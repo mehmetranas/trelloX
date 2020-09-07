@@ -1,3 +1,13 @@
+export interface ISearchItem {
+  card: Card;
+  listId: string;
+}
+
+export class SearchItem implements ISearchItem {
+  card: Card;
+  listId: string;
+}
+
 export class Tag {
   id: string;
   color: string;
@@ -14,6 +24,7 @@ export interface ICard {
   listId: string;
   title: string;
   tags: Tag[];
+  colorClass: string;
   comments: UserComment[];
 }
 
@@ -22,6 +33,7 @@ export class Card implements ICard {
   listId: string;
   title: string;
   tags: Tag[] = [];
+  colorClass: string;
   comments: UserComment[] = [];
 }
 

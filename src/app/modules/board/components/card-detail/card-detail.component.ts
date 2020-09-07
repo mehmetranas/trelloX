@@ -36,10 +36,6 @@ export class CardDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.boardService
-      .listTags()
-      .pipe(take(1))
-      .subscribe((tags) => (this.tags = tags));
   }
 
   initForm(): void {
@@ -84,11 +80,6 @@ export class CardDetailComponent implements OnInit {
   addTagToCard(tag: Tag): void {
     let currentState = this.cardForm.get('tags').value;
     currentState.push(tag);
-  }
-
-  isTagAdded(tagId: string): boolean {
-    const selectedTags: Tag[] = this.cardForm.get('tags').value;
-    return selectedTags.findIndex((tag) => tag.id === tagId) > -1;
   }
 
   removeTagFromCard(tagId: string): void {

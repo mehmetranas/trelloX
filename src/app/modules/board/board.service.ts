@@ -52,6 +52,8 @@ export class BoardService {
     let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     card.id = String(list.cards.length + 1);
+    card.listId = listId;
+    card.colorClass = 'bg-secondary';
     list.cards.push(card);
     return card;
   }
@@ -123,14 +125,16 @@ export class BoardService {
     // Seed List and Cards data
     let lists: List[] = [];
     for (let i = 1; i < 3; i++) {
-      const list = new List();
+      let list = new List();
       list.id = 'list' + i;
       list.title = faker.lorem.words(2);
       list.cards = [];
       for (let j = 0; j < 4; j++) {
         const card = new Card();
         card.id = 'card' + j;
+        card.listId = list.id;
         card.title = faker.lorem.words(3);
+        card.colorClass = 'bg-secondary';
         list.cards.push(card);
       }
       lists.push(list);

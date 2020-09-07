@@ -76,6 +76,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         event.previousIndex,
         event.currentIndex
       );
+      event.item.data.listId = event.container.id;
     }
   }
 
