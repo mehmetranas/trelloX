@@ -9,6 +9,7 @@
       style="height: 35px; color: #fff"
     >
       <app-select-color-menu-button
+        [color]="card.colorClass === 'bg-light' ? '#000' : '#fff'"
         (selectedClassName)="classNameSelected($event)"
       ></app-select-color-menu-button>
     </div>

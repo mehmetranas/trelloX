@@ -59,7 +59,7 @@ export class BoardService {
     let list = currentState.find((list) => list.id === listId);
     card.id = String(list.cards.length + 1);
     card.listId = listId;
-    card.colorClass = 'bg-secondary';
+    card.colorClass = 'bg-light';
     list.cards.push(card);
     return card;
   }
@@ -132,6 +132,33 @@ export class BoardService {
   }
 
   private seedListsData(): void {
+    // Seed background color classes
+    const bgColor = [
+      'bg-primary',
+      'bg-secondary',
+      'bg-danger',
+      'bg-warning',
+      'bg-light',
+    ];
+    this.bgColorClasses.next(bgColor);
+
+    // Seed Tags
+    let tags: Tag[] = [];
+    const tagColors = [
+      'badge-warning',
+      'badge-primary',
+      'badge-secondary',
+      'badge-danger',
+    ];
+    tagColors.forEach((color, index) => {
+      const tag = new Tag();
+      tag.id = 'tag-' + index;
+      tag.color = color;
+      tags.push(tag);
+    });
+
+    this.tags.next(tags);
+
     // Seed List and Cards data
     let lists: List[] = [];
     for (let i = 1; i < 3; i++) {
@@ -144,32 +171,12 @@ export class BoardService {
         card.id = 'card' + j;
         card.listId = list.id;
         card.title = faker.lorem.words(3);
-        card.colorClass = 'bg-secondary';
+        card.colorClass =
+          bgColor[Math.floor((Math.random() * 100) % bgColor.length)];
         list.cards.push(card);
       }
       lists.push(list);
       this.lists.next(lists);
-
-      // Seed background color classes
-      const bgColor = ['bg-primary', 'bg-secondary', 'bg-danger', 'bg-warning'];
-      this.bgColorClasses.next(bgColor);
-
-      // Seed Tags
-      let tags: Tag[] = [];
-      const tagColors = [
-        'badge-warning',
-        'badge-primary',
-        'badge-secondary',
-        'badge-danger',
-      ];
-      tagColors.forEach((color, index) => {
-        const tag = new Tag();
-        tag.id = 'tag-' + index;
-        tag.color = color;
-        tags.push(tag);
-      });
-
-      this.tags.next(tags);
     }
   }
 }

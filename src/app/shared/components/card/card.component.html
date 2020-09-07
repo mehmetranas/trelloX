@@ -1,7 +1,8 @@
 <mat-card class="position-relative">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-12">
+      <div class="col-2" [class]="card.colorClass"></div>
+      <div class="col-10 py-3">
         <span class="mat-body">
           {{ card.title }}
         </span>

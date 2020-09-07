@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { BoardService } from '../../board.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 })
 export class SelectColorMenuButtonComponent implements OnInit {
   bgColorClasses$: Observable<string[]>;
+  @Input() color: string = '#fff';
   @Output() selectedClassName = new EventEmitter<string>();
   constructor(private boardService: BoardService) {}
 
