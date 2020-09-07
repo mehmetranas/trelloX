@@ -101,6 +101,7 @@
     <app-comment
       [comment]="comment"
       (onEdit)="newComment = comment"
+      (onDelete)="deleteComment(comment.id)"
     ></app-comment>
   </div>
 </div>

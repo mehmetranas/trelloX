@@ -51,6 +51,7 @@ export class CardDetailComponent implements OnInit {
     if (this.data.cardId != null) {
       this.boardService
         .getCardById(this.data.cardId, this.data.listId)
+        .pipe(take(1))
         .subscribe((card) => {
           this.patchForm(card);
           this.card = card;
@@ -115,7 +116,11 @@ export class CardDetailComponent implements OnInit {
     this.onNewComment = false;
   }
 
-  deleteComment() {}
+  deleteComment(commentId: string) {
+    this.boardService.deleteComment(commentId, this.data.listId, this.card.id);
+    // Prevent an issue, if this comment on edit
+    this.newComment = new UserComment();
+  }
   onClose(): void {
     this.dialogRef.close();
   }

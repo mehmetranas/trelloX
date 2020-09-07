@@ -4,9 +4,13 @@
     <p class="card-text">
       {{ comment?.content }}
     </p>
-    <button mat-raised-button color="accent" (click)="_onEdit()" class="mx-1">
-      Edit
-    </button>
-    <button mat-button (click)="_onEdit()" class="mx-1">Cancel</button>
+    <div class="d-flex justify-content-end">
+      <button mat-raised-button color="accent" (click)="_onEdit()" class="mx-1">
+        Edit
+      </button>
+      <button mat-button color="warn" (click)="_delete()" class="mx-1">
+        Delete
+      </button>
+    </div>
   </div>
 </div>

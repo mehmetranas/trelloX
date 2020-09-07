@@ -18,7 +18,7 @@ export class BoardService {
     this.seedListsData();
   }
   addNewList(list: List): void {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let newList = new List();
     newList.cards = [];
     newList.title = list.title;
@@ -28,7 +28,7 @@ export class BoardService {
   }
 
   deleteList(listId: string): void {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     const i = currentState.findIndex((list) => list.id === listId);
     if (i > -1) {
       currentState.splice(i, 1);
@@ -49,7 +49,7 @@ export class BoardService {
   }
 
   addCard(card: Card, listId: string): Card {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     card.id = String(list.cards.length + 1);
     list.cards.push(card);
@@ -57,7 +57,7 @@ export class BoardService {
   }
 
   updateCard(card: Card, listId: string): Card {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     let currentCard = list.cards.find((c) => c.id === card.id);
     Object.assign(currentCard, card);
@@ -65,7 +65,7 @@ export class BoardService {
   }
 
   deleteCard(cardId: string, listId: string) {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     const i = list.cards.findIndex((c) => c.id === cardId);
     if (i > -1) {
@@ -78,7 +78,7 @@ export class BoardService {
   }
 
   updateTagTitle(tag: Tag) {
-    let currentState = this.tags.getValue();
+    let currentState = this.tags.value;
     currentState.find((t) => t.id === tag.id).title = tag.title;
   }
 
@@ -87,7 +87,7 @@ export class BoardService {
     cardId: string,
     listId: string
   ): UserComment {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     let card = list.cards.find((card) => card.id === cardId);
     if (!!newComment.id) {
@@ -103,14 +103,14 @@ export class BoardService {
   }
 
   updateComment(comment: UserComment, cardId: string, listId: string) {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     let card = list.cards.find((card) => card.id === cardId);
     card.comments.find((c) => c.id === comment.id).content = comment.content;
   }
 
   deleteComment(commentId: string, listId: string, cardId: string) {
-    let currentState = this.lists.getValue();
+    let currentState = this.lists.value;
     let list = currentState.find((list) => list.id === listId);
     let card = list.cards.find((card) => card.id === cardId);
     const i = card.comments.findIndex((card) => (card.id = cardId));

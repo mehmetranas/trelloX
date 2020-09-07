@@ -1,26 +1,27 @@
 <mat-form-field class="w-100">
-  <mat-label>Add A Comment</mat-label>
+  <mat-label #dd>Add A Comment</mat-label>
   <textarea
     class="new-comment"
     rows="3"
     matInput
     name="newComment"
     [(ngModel)]="content"
+    #inputArea
     placeholder="Is there any question ?"
     (focus)="onNewComment = true"
     (blur)="onNewComment = !!content"
   ></textarea>
   <!-- Comment Buttons -->
-  <div class="comment-button my-2">
-    <button
-      *ngIf="!!onNewComment"
-      color="accent"
-      mat-raised-button
-      class="mx-1"
-      (click)="_commentChanged()"
-      [disabled]="!content || content.trim().length === 0"
-    >
-      {{ isEdit ? "Update Comment" : "Add Comment" }}
-    </button>
-  </div>
 </mat-form-field>
+<div class="comment-button my-2">
+  <button
+    *ngIf="onNewComment"
+    color="accent"
+    mat-raised-button
+    class="mx-1"
+    (click)="_commentChanged()"
+    [disabled]="!content || content.trim().length === 0"
+  >
+    {{ isEdit ? "Update Comment" : "Add Comment" }}
+  </button>
+</div>
