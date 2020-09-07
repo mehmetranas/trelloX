@@ -9,6 +9,12 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class BoardService {
+  private bgColorClasses: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
+  public bgColorClasses$: Observable<
+    string[]
+  > = this.bgColorClasses.asObservable();
   private tags: BehaviorSubject<Tag[]> = new BehaviorSubject<Tag[]>([]);
   public tags$: Observable<Tag[]> = this.tags.asObservable();
   private lists: BehaviorSubject<List[]> = new BehaviorSubject<List[]>([]);
@@ -75,6 +81,10 @@ export class BoardService {
     }
   }
 
+  listBgColorClasses(): Observable<string[]> {
+    return this.bgColorClasses$;
+  }
+
   listTags(): Observable<Tag[]> {
     return this.tags$;
   }
@@ -139,6 +149,10 @@ export class BoardService {
       }
       lists.push(list);
       this.lists.next(lists);
+
+      // Seed background color classes
+      const bgColor = ['bg-primary', 'bg-secondary', 'bg-danger', 'bg-warning'];
+      this.bgColorClasses.next(bgColor);
 
       // Seed Tags
       let tags: Tag[] = [];

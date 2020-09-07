@@ -1,4 +1,4 @@
-<div class="select-color">
+<div *ngIf="bgColorClasses$ | async as classes" class="select-color">
   <button
     mat-icon-button
     [matMenuTriggerFor]="colorMenu"
@@ -7,8 +7,11 @@
     <mat-icon>color_lens</mat-icon>
   </button>
   <mat-menu #colorMenu="matMenu">
-    <button mat-menu-item class="bg-secondary"></button>
-    <button mat-menu-item disabled class="bg-warning"></button>
-    <button mat-menu-item class="bg-accent"></button>
+    <button
+      *ngFor="let class of classes"
+      mat-menu-item
+      [class]="class"
+      (click)="_selectedBgColorClass(class)"
+    ></button>
   </mat-menu>
 </div>

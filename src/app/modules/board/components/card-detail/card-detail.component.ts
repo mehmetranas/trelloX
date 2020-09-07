@@ -115,4 +115,8 @@ export class CardDetailComponent implements OnInit {
   onClose(): void {
     this.dialogRef.close();
   }
+
+  classNameSelected(event: string): void {
+    this.card.colorClass = event;
+  }
 }
