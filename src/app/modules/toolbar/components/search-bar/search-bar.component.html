@@ -8,10 +8,7 @@
       [formControl]="searchTerm"
     />
     <mat-icon matSuffix>search</mat-icon>
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      (optionActivated)="onSelected($event)"
-    >
+    <mat-autocomplete #auto="matAutocomplete">
       <mat-option
         *ngFor="let item of filteredStates | async"
         [value]="item.title"
